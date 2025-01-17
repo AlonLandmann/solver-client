@@ -1,3 +1,5 @@
+import { scaleTableStyle } from "@/lib/scaling";
+
 function divideIntoSidePots(hasFolded, mainPotShares) {
     const allPots = [];
     const remainingShares = [...mainPotShares];
@@ -31,7 +33,7 @@ function divideIntoSidePots(hasFolded, mainPotShares) {
     return allPots;
 }
 
-export default function Pot({ hasFolded, mainPotShares }) {
+export default function Pot({ tableWidth, hasFolded, mainPotShares }) {
     const pots = divideIntoSidePots(hasFolded, mainPotShares);
 
     return (
@@ -40,6 +42,9 @@ export default function Pot({ hasFolded, mainPotShares }) {
                 <div
                     key={"pot-" + i}
                     className="flex items-center gap-2 text-neutral-500"
+                    style={{
+                        fontSize: scaleTableStyle(15, tableWidth, 0.5, 10),
+                    }}
                 >
                     <i className="bi bi-database"></i>
                     <div>{pot}</div>

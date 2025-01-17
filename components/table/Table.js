@@ -6,17 +6,17 @@ import Pot from "./Pot";
 import Seat from "./Seat";
 
 export default function Table() {
-    const tableWidth = 710;
-    const tableHeight = 510;
+    const tableWidth = 710 * 0.8;
+    const tableHeight = 510 * 0.8;
 
     const heroPosition = 4;
     const holeCards = ["Ad", "Kd"];
-    const board = [];
+    const board = ["Ad", "Kd", "Ad", "Kd"];
     const hasFolded = [false, false, true, true, false, false];
     const lastActions = ["sb", "bb", "fold", "fold", null, null];
     const stacks = [99, 98, 100, 100, 100, 100];
     const committed = [1, 2, 0, 0, 0, 0];
-    const mainPotShares = [0, 0, 0, 0, 0, 0];
+    const mainPotShares = [50, 50, 0, 0, 0, 0];
 
     return (
         <div
@@ -39,6 +39,7 @@ export default function Table() {
                     board={board}
                 />
                 <Pot
+                    tableWidth={tableWidth}
                     hasFolded={hasFolded}
                     mainPotShares={mainPotShares}
                 />
