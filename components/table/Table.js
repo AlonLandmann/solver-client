@@ -6,8 +6,8 @@ import Pot from "./Pot";
 import Seat from "./Seat";
 
 export default function Table() {
-    const width = 710;
-    const height = 510;
+    const tableWidth = 710;
+    const tableHeight = 510;
 
     const heroPosition = 4;
     const holeCards = ["Ad", "Kd"];
@@ -21,17 +21,21 @@ export default function Table() {
     return (
         <div
             className="relative flex justify-center items-center"
-            style={{ width, height }}
+            style={{
+                width: tableWidth,
+                height: tableHeight,
+            }}
         >
             <Background
-                width={width}
-                height={height}
+                tableWidth={tableWidth}
             />
             <DealerButton
+                tableWidth={tableWidth}
                 heroPosition={heroPosition}
             />
             <div className="absolute flex flex-col items-center gap-1 mt-7">
                 <Board
+                    tableWidth={tableWidth}
                     board={board}
                 />
                 <Pot
@@ -42,6 +46,7 @@ export default function Table() {
             {Array(6).fill(null).map((_, i) => (
                 <Seat
                     key={"seat-" + i}
+                    tableWidth={tableWidth}
                     heroPosition={heroPosition}
                     seatOffset={i}
                     holeCards={i === 0 ? holeCards : null}
@@ -53,6 +58,7 @@ export default function Table() {
             {Array(6).fill(null).map((_, i) => (
                 <CommittedChips
                     key={"chips-" + i}
+                    tableWidth={tableWidth}
                     heroPosition={heroPosition}
                     seatOffset={i}
                     committed={committed}

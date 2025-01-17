@@ -1,3 +1,5 @@
+import { scaleTableStyle } from "@/lib/scaling";
+
 function suitBackground(suit) {
     const map = {
         "s": "#151515",
@@ -20,14 +22,14 @@ function suitIcon(suit) {
     return `bi bi-suit-${map[suit]}-fill`;
 }
 
-export default function Card({ card }) {
+export default function Card({ tableWidth, card }) {
     return (
         <div
             className="relative flex justify-center items-center rounded-[3px] text-neutral-400 overflow-hidden"
             style={{
-                width: "33px",
-                height: "50px",
-                fontSize: "20px",
+                width: scaleTableStyle(33, tableWidth, 0.5),
+                height: scaleTableStyle(50, tableWidth, 0.5),
+                fontSize: scaleTableStyle(20, tableWidth, 0.5, 10),
                 background: card
                     ? suitBackground(card[1])
                     : "repeating-linear-gradient(-45deg, #888, #888 4px, #555 4px, #555 8px)",
@@ -41,8 +43,8 @@ export default function Card({ card }) {
                         ${card[1] === "s" ? "opacity-5" : "opacity-15"}
                     `}
                     style={{
-                        top: "15px",
-                        left: "5px",
+                        top: scaleTableStyle(15, tableWidth, 0.5),
+                        left: scaleTableStyle(5, tableWidth, 0.5),
                     }}
                 >
                     <i className={suitIcon(card[1])}></i>
