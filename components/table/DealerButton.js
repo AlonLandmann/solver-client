@@ -1,10 +1,10 @@
 const layout = [
-    { bottom: "3%", left: "37%" },
-    { bottom: "26%", left: "5%" },
-    { top: "5%", left: "18%" },
-    { top: "3%", left: "37%" },
-    { top: "26%", right: "5%" },
-    { bottom: "5%", right: "18%" },
+    { bottom: "23%", left: "39%" },
+    { bottom: "36%", left: "13%" },
+    { top: "24%", left: "23%" },
+    { top: "23%", right: "39%" },
+    { top: "36%", right: "13%" },
+    { bottom: "24%", right: "23%" },
 ];
 
 export default function DealerButton({ heroPosition }) {

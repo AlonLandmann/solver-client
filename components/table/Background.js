@@ -1,7 +1,4 @@
-import CommittedChips from "./CommittedChips";
-import DealerButton from "./DealerButton";
-
-export default function TableMain({ width, height, heroPosition, committed }) {
+export default function Background({ width, height }) {
     return (
         <div
             className="bg-[#181818] border flex justify-center items-center"
@@ -27,17 +24,6 @@ export default function TableMain({ width, height, heroPosition, committed }) {
                 >
                     HT
                 </div>
-                <DealerButton
-                    heroPosition={heroPosition}
-                />
-                {Array(6).fill(null).map((_, i) => (
-                    <CommittedChips
-                        key={"chips-" + i}
-                        heroPosition={heroPosition}
-                        seatOffset={i}
-                        committed={committed}
-                    />
-                ))}
             </div>
         </div>
     );

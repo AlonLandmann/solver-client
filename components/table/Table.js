@@ -1,10 +1,14 @@
+import Background from "./Background";
+import Board from "./Board";
+import CommittedChips from "./CommittedChips";
+import DealerButton from "./DealerButton";
+import Pot from "./Pot";
 import Seat from "./Seat";
-import TableCenter from "./TableCenter";
-import TableMain from "./TableMain";
 
 export default function Table() {
     const width = 710;
     const height = 510;
+
     const heroPosition = 4;
     const holeCards = ["Ad", "Kd"];
     const board = [];
@@ -19,16 +23,22 @@ export default function Table() {
             className="relative flex justify-center items-center"
             style={{ width, height }}
         >
-            <TableMain
+            <Background
                 width={width}
                 height={height}
+            />
+            <DealerButton
                 heroPosition={heroPosition}
-                committed={committed}
             />
-            <TableCenter
-                board={board}
-                mainPotShares={mainPotShares}
-            />
+            <div className="absolute flex flex-col items-center gap-1 mt-7">
+                <Board
+                    board={board}
+                />
+                <Pot
+                    hasFolded={hasFolded}
+                    mainPotShares={mainPotShares}
+                />
+            </div>
             {Array(6).fill(null).map((_, i) => (
                 <Seat
                     key={"seat-" + i}
@@ -38,6 +48,14 @@ export default function Table() {
                     hasFolded={hasFolded}
                     lastActions={lastActions}
                     stacks={stacks}
+                />
+            ))}
+            {Array(6).fill(null).map((_, i) => (
+                <CommittedChips
+                    key={"chips-" + i}
+                    heroPosition={heroPosition}
+                    seatOffset={i}
+                    committed={committed}
                 />
             ))}
         </div>

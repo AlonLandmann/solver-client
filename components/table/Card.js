@@ -6,7 +6,7 @@ function suitBackground(suit) {
         "c": "#3a6e48",
     };
 
-    return `bg-[${map[suit]}]`;
+    return map[suit];
 }
 
 function suitIcon(suit) {
@@ -23,17 +23,14 @@ function suitIcon(suit) {
 export default function Card({ card }) {
     return (
         <div
-            className={`
-                relative flex justify-center items-center rounded-[3px] text-neutral-400 overflow-hidden
-                ${card
-                    ? suitBackground(card[1])
-                    : "bg-[repeating-linear-gradient(-45deg,_#888,_#888_4px,_#555_4px,_#555_8px)]"
-                }
-            `}
+            className="relative flex justify-center items-center rounded-[3px] text-neutral-400 overflow-hidden"
             style={{
                 width: "33px",
                 height: "50px",
                 fontSize: "20px",
+                background: card
+                    ? suitBackground(card[1])
+                    : "repeating-linear-gradient(-45deg, #888, #888 4px, #555 4px, #555 8px)",
             }}
         >
             {card && card[0]}

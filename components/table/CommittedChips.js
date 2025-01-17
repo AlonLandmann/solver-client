@@ -1,10 +1,10 @@
 const layout = [
-    { bottom: "3%", left: "50%", transform: "translateX(-50%)" },
-    { bottom: "14%", left: "10%" },
-    { top: "14%", left: "10%" },
-    { top: "3%", left: "50%", transform: "translateX(-50%)" },
-    { top: "14%", right: "10%" },
-    { bottom: "14%", right: "10%" },
+    { bottom: "23%", left: "50%", justifyContent: "center", transform: "translateX(-50%)" },
+    { bottom: "30%", left: "16%", justifyContent: "flex-start" },
+    { top: "30%", left: "16%", justifyContent: "flex-start" },
+    { top: "23%", left: "50%", justifyContent: "center", transform: "translateX(-50%)" },
+    { top: "30%", right: "16%", justifyContent: "flex-end" },
+    { bottom: "30%", right: "16%", justifyContent: "flex-end" },
 ];
 
 export default function CommittedChips({ heroPosition, seatOffset, committed }) {
@@ -16,7 +16,7 @@ export default function CommittedChips({ heroPosition, seatOffset, committed }) 
 
     return (
         <div
-            className="absolute h-[30px] w-[30px] flex justify-center items-center gap-2 text-neutral-500"
+            className="absolute h-[30px] flex items-center gap-2 text-neutral-500"
             style={{
                 ...layout[seatOffset],
                 fontSize: "15px",
