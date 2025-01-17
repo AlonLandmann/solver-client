@@ -1,6 +1,9 @@
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import Table from "../table/Table";
 
 export default function HomeRoot() {
+    const [width, height] = useWindowDimensions();
+
     return (
         <div className="bg-neutral-900 min-h-screen">
             <section className="flex flex-col items-center py-16 px-10 border-b bg-neutral-800 bg-opacity-10">
@@ -17,7 +20,10 @@ export default function HomeRoot() {
                     Game Scenario
                 </h2>
                 <div>
-                    <Table />
+                    <Table
+                        availableWidth={width - 80}
+                        availableHeight={height - 80}
+                    />
                 </div>
             </section>
         </div>

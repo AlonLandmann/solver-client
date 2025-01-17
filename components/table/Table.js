@@ -5,10 +5,9 @@ import DealerButton from "./DealerButton";
 import Pot from "./Pot";
 import Seat from "./Seat";
 
-export default function Table() {
-    const tableWidth = 710 * 0.8;
-    const tableHeight = 510 * 0.8;
-
+export default function Table({ availableWidth, availableHeight }) {
+    const tableWidth = Math.max(400, Math.min(710, availableWidth, (710 / 510) * availableHeight));
+    
     const heroPosition = 4;
     const holeCards = ["Ad", "Kd"];
     const board = ["Ad", "Kd", "Ad", "Kd"];
@@ -23,7 +22,7 @@ export default function Table() {
             className="relative flex justify-center items-center"
             style={{
                 width: tableWidth,
-                height: tableHeight,
+                height: (510 / 710) * tableWidth,
             }}
         >
             <Background
