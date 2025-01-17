@@ -7,7 +7,19 @@ export default {
     ],
     theme: {
         extend: {
-            // extend theme here
+            screens: {
+                "xs": "480px",
+            },
+            fontFamily: {
+                sans: ["Red Hat Display", "sans-serif"],
+                decorative: ["Amita", "cursive"],
+            },
+            borderColor: {
+                DEFAULT: "rgb(38, 38, 38)",
+            },
+            transitionProperty: {
+                "width": "width",
+            }
         },
     },
     plugins: [],
