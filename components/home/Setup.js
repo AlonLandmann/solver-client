@@ -50,7 +50,7 @@ export default function Setup() {
                     Position
                 </div>
                 <select
-                    className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
+                    className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
                     value={String(heroPosition)}
                     onChange={e => setHeroPosition(Number(e.target.value))}
                 >
@@ -68,7 +68,7 @@ export default function Setup() {
                 </div>
                 <div className="flex gap-1">
                     <select
-                        className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
+                        className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
                         value={holeCards[0]}
                         onChange={e => setHoleCards(p => { const n = [...p]; n[0] = e.target.value; return n })}
                     >
