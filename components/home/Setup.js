@@ -1,15 +1,9 @@
 import { deck } from "@/lib/cards";
-import { useState } from "react";
+import { produce } from "immer";
 
-export default function Setup() {
-    const [smallBlind, setSmallBlind] = useState(1);
-    const [bigBlind, setBigBlind] = useState(2);
-    const [initialStacks, setInitialStacks] = useState(Array(6).fill(200));
-    const [heroPosition, setHeroPosition] = useState(2);
-    const [holeCards, setHoleCards] = useState(["Ad", "Kd"]);
-
+export default function Setup({ setup, setSetup }) {
     return (
-        <div className="flex items-center gap-8">
+        <div className="flex justify-center items-center gap-8 flex-wrap">
             <div className="flex flex-col items-center gap-1">
                 <div className="text-neutral-500">
                     Blinds
@@ -18,29 +12,29 @@ export default function Setup() {
                     <input
                         className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
                         type="number"
-                        value={smallBlind}
-                        onChange={e => setSmallBlind(e.target.value)}
+                        value={setup.smallBlind}
+                        onChange={e => setSetup(produce(p => { p.smallBlind = e.target.value }))}
                     />
                     <input
                         className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
                         type="number"
-                        value={bigBlind}
-                        onChange={e => setBigBlind(e.target.value)}
+                        value={setup.bigBlind}
+                        onChange={e => setSetup(produce(p => { p.bigBlind = e.target.value }))}
                     />
                 </div>
             </div>
             <div className="flex flex-col items-center gap-1">
                 <div className="text-neutral-500">
-                    Stack Sizes
+                    Initial Stack Sizes
                 </div>
-                <div className="flex gap-1">
+                <div className="flex justify-center gap-1 flex-wrap">
                     {Array(6).fill(null).map((_, i) => (
                         <input
                             key={"initial-stack-input-" + i}
                             className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
                             type="number"
-                            value={initialStacks[i]}
-                            onChange={e => setInitialStacks(p => { const n = [...p]; n[i] = e.target.value; return n })}
+                            value={setup.initialStacks[i]}
+                            onChange={e => setSetup(produce(p => { p.initialStacks[i] = e.target.value }))}
                         />
                     ))}
                 </div>
@@ -51,8 +45,8 @@ export default function Setup() {
                 </div>
                 <select
                     className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
-                    value={String(heroPosition)}
-                    onChange={e => setHeroPosition(Number(e.target.value))}
+                    value={String(setup.heroPosition)}
+                    onChange={e => setSetup(produce(p => { p.heroPosition = Number(e.target.value) }))}
                 >
                     <option value="0">Small Blind</option>
                     <option value="1">Big Blind</option>
@@ -64,34 +58,34 @@ export default function Setup() {
             </div>
             <div className="flex flex-col items-center gap-1">
                 <div className="text-neutral-500">
-                    Hole Cards
+                    Hand
                 </div>
                 <div className="flex gap-1">
                     <select
                         className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
-                        value={holeCards[0]}
-                        onChange={e => setHoleCards(p => { const n = [...p]; n[0] = e.target.value; return n })}
+                        value={setup.holeCards[0]}
+                        onChange={e => setSetup(produce(p => { p.holeCards[0] = e.target.value }))}
                     >
                         {deck.map(card => (
                             <option
                                 key={card}
                                 value={card}
-                                disabled={holeCards.includes(card)}
+                                disabled={setup.holeCards.includes(card)}
                             >
                                 {card}
                             </option>
                         ))}
                     </select>
                     <select
-                        className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
-                        value={holeCards[1]}
-                        onChange={e => setHoleCards(p => { const n = [...p]; n[1] = e.target.value; return n })}
+                        className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
+                        value={setup.holeCards[1]}
+                        onChange={e => setSetup(produce(p => { p.holeCards[1] = e.target.value }))}
                     >
                         {deck.map(card => (
                             <option
                                 key={card}
                                 value={card}
-                                disabled={holeCards.includes(card)}
+                                disabled={setup.holeCards.includes(card)}
                             >
                                 {card}
                             </option>

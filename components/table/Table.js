@@ -5,17 +5,8 @@ import DealerButton from "./DealerButton";
 import Pot from "./Pot";
 import Seat from "./Seat";
 
-export default function Table({ availableWidth, availableHeight }) {
+export default function Table({ availableWidth, availableHeight, setup, spot }) {
     const tableWidth = Math.max(400, Math.min(710, availableWidth, (710 / 510) * availableHeight));
-    
-    const heroPosition = 4;
-    const holeCards = ["Ad", "Kd"];
-    const board = [];
-    const hasFolded = [false, false, false, false, false, false];
-    const lastActions = ["sb", "bb", "fold", "fold", null, null];
-    const stacks = [99, 98, 100, 100, 100, 100];
-    const committed = [1, 2, 0, 0, 0, 0];
-    const mainPotShares = [0, 0, 0, 0, 0, 0];
 
     return (
         <div
@@ -30,38 +21,38 @@ export default function Table({ availableWidth, availableHeight }) {
             />
             <DealerButton
                 tableWidth={tableWidth}
-                heroPosition={heroPosition}
+                heroPosition={setup.heroPosition}
             />
             <div className="absolute flex flex-col items-center gap-1 mt-7">
                 <Board
                     tableWidth={tableWidth}
-                    board={board}
+                    board={spot.board}
                 />
                 <Pot
                     tableWidth={tableWidth}
-                    hasFolded={hasFolded}
-                    mainPotShares={mainPotShares}
+                    hasFolded={spot.hasFolded}
+                    mainPotShares={spot.mainPotShares}
                 />
             </div>
             {Array(6).fill(null).map((_, i) => (
                 <Seat
                     key={"seat-" + i}
                     tableWidth={tableWidth}
-                    heroPosition={heroPosition}
+                    heroPosition={setup.heroPosition}
                     seatOffset={i}
-                    holeCards={i === 0 ? holeCards : null}
-                    hasFolded={hasFolded}
-                    lastActions={lastActions}
-                    stacks={stacks}
+                    holeCards={i === 0 ? setup.holeCards : null}
+                    hasFolded={spot.hasFolded}
+                    lastActions={spot.lastActions}
+                    stacks={spot.stacks}
                 />
             ))}
             {Array(6).fill(null).map((_, i) => (
                 <CommittedChips
                     key={"chips-" + i}
                     tableWidth={tableWidth}
-                    heroPosition={heroPosition}
+                    heroPosition={setup.heroPosition}
                     seatOffset={i}
-                    committed={committed}
+                    committed={spot.committed}
                 />
             ))}
         </div>

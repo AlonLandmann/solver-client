@@ -1,9 +1,39 @@
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import Table from "../table/Table";
 import Setup from "./Setup";
+import { useEffect, useState } from "react";
+import { produce } from "immer";
 
 export default function HomeRoot() {
     const [width, height] = useWindowDimensions();
+
+    const [setup, setSetup] = useState({
+        smallBlind: 1,
+        bigBlind: 2,
+        initialStacks: [200, 200, 200, 200, 200, 200],
+        heroPosition: 2,
+        holeCards: ["Ad", "Kd"],
+    });
+
+    const [spot, setSpot] = useState({
+        board: [],
+        hasFolded: [false, false, false, false, false, false],
+        hasActed: [false, false, false, false, false],
+        lastActions: ["sb", "bb", null, null, null, null],
+        stacks: [199, 198, 200, 200, 200, 200],
+        committed: [1, 2, 0, 0, 0, 0],
+        mainPotShares: [0, 0, 0, 0, 0, 0],
+    });
+
+    useEffect(() => {
+        setSpot(produce(p => {
+            p.committed[0] = setup.smallBlind;
+            p.committed[1] = setup.bigBlind;
+            p.stacks = [...setup.initialStacks];
+            p.stacks[0] -= setup.smallBlind;
+            p.stacks[1] -= setup.bigBlind;
+        }));
+    }, [setup.smallBlind, setup.bigBlind, setup.initialStacks]);
 
     return (
         <div className="bg-neutral-900 min-h-screen">
@@ -17,10 +47,15 @@ export default function HomeRoot() {
                 </p>
             </section>
             <section className="flex flex-col items-center gap-20 px-10 py-16 border-b">
-                <Setup />
+                <Setup
+                    setup={setup}
+                    setSetup={setSetup}
+                />
                 <Table
                     availableWidth={width - 80}
                     availableHeight={height - 80}
+                    setup={setup}
+                    spot={spot}
                 />
             </section>
         </div>
