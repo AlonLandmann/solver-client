@@ -8,8 +8,8 @@ export default function HomeRoot() {
     const [width, height] = useWindowDimensions();
 
     const [setup, setSetup] = useState({
-        blinds: [1, 2],
-        initialStacks: [200, 200, 200, 200, 200, 200],
+        blinds: ["1", "2"],
+        initialStacks: ["200", "200", "200", "200", "200", "200"],
         heroPosition: 2,
         holeCards: ["Ad", "Kd"],
     });
@@ -26,11 +26,15 @@ export default function HomeRoot() {
 
     useEffect(() => {
         setSpot(produce(p => {
-            p.stacks = [...setup.initialStacks];
-            p.stacks[0] -= setup.blinds[0];
-            p.stacks[1] -= setup.blinds[1];
-            p.committed[0] = setup.blinds[0];
-            p.committed[1] = setup.blinds[1];
+            p.stacks = setup.initialStacks.map(s => Number(s));
+
+            const sbSet = Math.min(p.stacks[0], Number(setup.blinds[0]));
+            const bbSet = Math.min(p.stacks[1], Number(setup.blinds[1]));
+
+            p.stacks[0] -= sbSet;
+            p.stacks[1] -= bbSet;
+            p.committed[0] = sbSet;
+            p.committed[1] = bbSet;
         }));
     }, [setup.blinds, setup.initialStacks]);
 
