@@ -16,10 +16,10 @@ export default function HomeRoot() {
                     Solve any postflop spot you like. It's completely <strong>free</strong>!
                 </p>
             </section>
-            <section className="px-10 py-16 border-b grid justify-items-center" style={{ gridTemplateColumns: "1fr 4fr 1fr" }}>
+            <section className="flex flex-col items-center gap-20 px-10 py-16 border-b">
                 <Setup />
                 <Table
-                    availableWidth={(width - 80) * 2 / 3}
+                    availableWidth={width - 80}
                     availableHeight={height - 80}
                 />
             </section>
