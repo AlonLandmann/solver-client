@@ -26,11 +26,9 @@ export default function HomeRoot() {
 
     useEffect(() => {
         setSpot(produce(p => {
+            const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
+            const bbSet = Math.min(Number(setup.initialStacks[1]), Number(setup.blinds[1]));
             p.stacks = setup.initialStacks.map(s => Number(s));
-
-            const sbSet = Math.min(p.stacks[0], Number(setup.blinds[0]));
-            const bbSet = Math.min(p.stacks[1], Number(setup.blinds[1]));
-
             p.stacks[0] -= sbSet;
             p.stacks[1] -= bbSet;
             p.committed[0] = sbSet;
