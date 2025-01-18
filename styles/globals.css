@@ -32,6 +32,6 @@ input.spinner-less[type=number] {
     color-scheme: dark;
 }
 
-body {
+body, input, select, textarea {
     font-family: "Red Hat Display", sans-serif;
 }

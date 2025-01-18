@@ -10,12 +10,12 @@ export default function Table({ availableWidth, availableHeight }) {
     
     const heroPosition = 4;
     const holeCards = ["Ad", "Kd"];
-    const board = ["Ad", "Kd", "Ad", "Kd"];
-    const hasFolded = [false, false, true, true, false, false];
+    const board = [];
+    const hasFolded = [false, false, false, false, false, false];
     const lastActions = ["sb", "bb", "fold", "fold", null, null];
     const stacks = [99, 98, 100, 100, 100, 100];
     const committed = [1, 2, 0, 0, 0, 0];
-    const mainPotShares = [50, 50, 0, 0, 0, 0];
+    const mainPotShares = [0, 0, 0, 0, 0, 0];
 
     return (
         <div
