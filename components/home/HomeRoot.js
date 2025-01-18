@@ -8,8 +8,7 @@ export default function HomeRoot() {
     const [width, height] = useWindowDimensions();
 
     const [setup, setSetup] = useState({
-        smallBlind: 1,
-        bigBlind: 2,
+        blinds: [1, 2],
         initialStacks: [200, 200, 200, 200, 200, 200],
         heroPosition: 2,
         holeCards: ["Ad", "Kd"],
@@ -27,13 +26,13 @@ export default function HomeRoot() {
 
     useEffect(() => {
         setSpot(produce(p => {
-            p.committed[0] = setup.smallBlind;
-            p.committed[1] = setup.bigBlind;
             p.stacks = [...setup.initialStacks];
-            p.stacks[0] -= setup.smallBlind;
-            p.stacks[1] -= setup.bigBlind;
+            p.stacks[0] -= setup.blinds[0];
+            p.stacks[1] -= setup.blinds[1];
+            p.committed[0] = setup.blinds[0];
+            p.committed[1] = setup.blinds[1];
         }));
-    }, [setup.smallBlind, setup.bigBlind, setup.initialStacks]);
+    }, [setup.blinds, setup.initialStacks]);
 
     return (
         <div className="bg-neutral-900 min-h-screen">

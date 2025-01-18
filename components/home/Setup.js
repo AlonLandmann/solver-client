@@ -9,18 +9,15 @@ export default function Setup({ setup, setSetup }) {
                     Blinds
                 </div>
                 <div className="flex gap-1">
-                    <input
-                        className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
-                        type="number"
-                        value={setup.smallBlind}
-                        onChange={e => setSetup(produce(p => { p.smallBlind = e.target.value }))}
-                    />
-                    <input
-                        className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
-                        type="number"
-                        value={setup.bigBlind}
-                        onChange={e => setSetup(produce(p => { p.bigBlind = e.target.value }))}
-                    />
+                    {setup.blinds.map((value, i) => (
+                        <input
+                            key={"blind-input-" + i}
+                            className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
+                            type="number"
+                            value={value}
+                            onChange={e => setSetup(produce(p => { p.blinds[i] = Number(e.target.value) }))}
+                        />
+                    ))}
                 </div>
             </div>
             <div className="flex flex-col items-center gap-1">
@@ -28,13 +25,13 @@ export default function Setup({ setup, setSetup }) {
                     Initial Stack Sizes
                 </div>
                 <div className="flex justify-center gap-1 flex-wrap">
-                    {Array(6).fill(null).map((_, i) => (
+                    {setup.initialStacks.map((value, i) => (
                         <input
                             key={"initial-stack-input-" + i}
                             className="bg-neutral-800 w-16 px-4 py-3 rounded-sm outline-none border focus:border-neutral-700 text-sm text-center placeholder-neutral-600 spinner-less"
                             type="number"
-                            value={setup.initialStacks[i]}
-                            onChange={e => setSetup(produce(p => { p.initialStacks[i] = e.target.value }))}
+                            value={value}
+                            onChange={e => setSetup(produce(p => { p.initialStacks[i] = Number(e.target.value) }))}
                         />
                     ))}
                 </div>
