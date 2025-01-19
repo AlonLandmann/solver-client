@@ -1,13 +1,11 @@
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 import Table from "../table/Table";
 import Setup from "./Setup";
 import { useEffect, useState } from "react";
 import { produce } from "immer";
 import History from "./History";
+import Frequncies from "../frequencies/Frequencies";
 
 export default function HomeRoot() {
-    const [width, height] = useWindowDimensions();
-
     const [setup, setSetup] = useState({
         blinds: ["1", "2"],
         initialStacks: ["200", "200", "200", "200", "200", "200"],
@@ -27,6 +25,15 @@ export default function HomeRoot() {
         committed: [1, 2, 0, 0, 0, 0],
         mainPotShares: [0, 0, 0, 0, 0, 0],
     });
+
+    const [frequencies, setFrequencies] = useState([
+        Array(1326).fill(0),
+        Array(1326).fill(0),
+        Array(1326).fill(0),
+        Array(1326).fill(0),
+        Array(1326).fill(0),
+        Array(1326).fill(0),
+    ]);
 
     useEffect(() => {
         setSpot(produce(p => {
@@ -53,6 +60,9 @@ export default function HomeRoot() {
                 </p>
             </section>
             <section className="flex flex-col items-center gap-8 px-10 py-16 border-b">
+                <h2 className="text-3xl text-neutral-700 tracking-wider mb-8">
+                    SCENARIO
+                </h2>
                 <Setup
                     setup={setup}
                     setSetup={setSetup}
@@ -63,10 +73,18 @@ export default function HomeRoot() {
                     setSpot={setSpot}
                 />
                 <Table
-                    availableWidth={width - 80}
-                    availableHeight={height - 80}
                     setup={setup}
                     spot={spot}
+                />
+            </section>
+            <section className="flex flex-col items-center gap-8 px-10 py-16 bg-neutral-800 bg-opacity-10">
+                <h2 className="text-3xl text-neutral-600 tracking-wider mb-8">
+                    FREQUENCIES
+                </h2>
+                <Frequncies
+                    spot={spot}
+                    frequencies={frequencies}
+                    setFrequencies={setFrequencies}
                 />
             </section>
         </div>

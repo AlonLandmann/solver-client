@@ -1,3 +1,4 @@
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import Background from "./Background";
 import Board from "./Board";
 import CommittedChips from "./CommittedChips";
@@ -5,8 +6,9 @@ import DealerButton from "./DealerButton";
 import Pot from "./Pot";
 import Seat from "./Seat";
 
-export default function Table({ availableWidth, availableHeight, setup, spot }) {
-    const tableWidth = Math.max(400, Math.min(710, availableWidth, (710 / 510) * availableHeight));
+export default function Table({ setup, spot }) {
+    const [width, height] = useWindowDimensions();
+    const tableWidth = Math.max(400, Math.min(710, width - 80));
 
     return (
         <div
