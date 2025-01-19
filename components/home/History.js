@@ -298,13 +298,14 @@ export default function History({ setup, spot, setSpot }) {
                     <div className="flex gap-1">
                         {flop.map((_, i) => (
                             <select
+                                key={"flop-selection-" + i}
                                 className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
                                 value={flop[i]}
                                 onChange={e => setFlop(produce(p => { p[i] = e.target.value }))}
                             >
                                 {deck.map(card => (
                                     <option
-                                        key={"flop-" + i + "-option-" + card}
+                                        key={"flop-selection-" + i + "-option-" + card}
                                         value={card}
                                         disabled={spot.board.includes(card)}
                                     >
