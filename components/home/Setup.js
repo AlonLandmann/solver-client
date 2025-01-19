@@ -43,7 +43,7 @@ export default function Setup({ setup, setSetup }) {
                         <input
                             key={"blind-input-" + i}
                             className={`
-                                w-16 px-4 py-3 rounded-sm outline-none border text-sm text-center spinner-less
+                                w-16 px-4 py-3 rounded-sm outline-none border text-sm text-center
                                 ${errors.blinds[i]
                                     ? "bg-rose-950 border-rose-900 focus:border-rose-800 text-rose-200 placeholder-rose-900"
                                     : "bg-neutral-800 border-neutral-800 focus:border-neutral-700 text-neutral-100 placeholder-neutral-600"
@@ -65,7 +65,7 @@ export default function Setup({ setup, setSetup }) {
                         <input
                             key={"initial-stack-input-" + i}
                             className={`
-                                w-16 px-4 py-3 rounded-sm outline-none border text-sm text-center spinner-less
+                                w-16 px-4 py-3 rounded-sm outline-none border text-sm text-center
                                 ${errors.initialStacks[i]
                                     ? "bg-rose-950 border-rose-900 focus:border-rose-800 text-rose-200 placeholder-rose-900"
                                     : "bg-neutral-800 border-neutral-800 focus:border-neutral-700 text-neutral-100 placeholder-neutral-600"

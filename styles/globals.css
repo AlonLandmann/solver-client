@@ -17,17 +17,6 @@
     }
 }
 
-input.spinner-less[type=number]::-webkit-inner-spin-button,
-input.spinner-less[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input.spinner-less[type=number] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-
 :root {
     color-scheme: dark;
 }
