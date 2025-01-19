@@ -15,7 +15,7 @@ export default function Setup({ setup, setSetup }) {
             if (isNaN(number) || number <= 0 || Number(setup.blinds[0]) > Number(setup.blinds[1])) {
                 setErrors(produce(p => { p.blinds[i] = true }));
             } else {
-                setErrors(produce(p => { p.blinds[i] = false }));
+                setErrors(produce(p => { p.blinds[i] = null }));
             }
         }
     }, [setup.blinds]);
@@ -27,7 +27,7 @@ export default function Setup({ setup, setSetup }) {
             if (isNaN(number) || number <= 0) {
                 setErrors(produce(p => { p.initialStacks[i] = true }));
             } else {
-                setErrors(produce(p => { p.initialStacks[i] = false }));
+                setErrors(produce(p => { p.initialStacks[i] = null }));
             }
         }
     }, [setup.initialStacks]);
@@ -80,7 +80,7 @@ export default function Setup({ setup, setSetup }) {
             </div>
             <div className="flex flex-col items-center gap-1">
                 <div className="text-neutral-500">
-                    Position
+                    Your Position
                 </div>
                 <select
                     className="bg-neutral-800 px-4 py-3 rounded-sm border text-sm text-center focus:border-neutral-700 placeholder-neutral-300 focus:placeholder-white appearance-none"
@@ -97,7 +97,7 @@ export default function Setup({ setup, setSetup }) {
             </div>
             <div className="flex flex-col items-center gap-1">
                 <div className="text-neutral-500">
-                    Hand
+                    Your Hand
                 </div>
                 <div className="flex gap-1">
                     <select

@@ -3,6 +3,7 @@ import Table from "../table/Table";
 import Setup from "./Setup";
 import { useEffect, useState } from "react";
 import { produce } from "immer";
+import History from "./History";
 
 export default function HomeRoot() {
     const [width, height] = useWindowDimensions();
@@ -15,10 +16,13 @@ export default function HomeRoot() {
     });
 
     const [spot, setSpot] = useState({
+        player: 2,
+        street: 0,
         board: [],
         hasFolded: [false, false, false, false, false, false],
         hasActed: [false, false, false, false, false],
         lastActions: ["sb", "bb", null, null, null, null],
+        minRaise: 2,
         stacks: [199, 198, 200, 200, 200, 200],
         committed: [1, 2, 0, 0, 0, 0],
         mainPotShares: [0, 0, 0, 0, 0, 0],
@@ -28,6 +32,7 @@ export default function HomeRoot() {
         setSpot(produce(p => {
             const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
             const bbSet = Math.min(Number(setup.initialStacks[1]), Number(setup.blinds[1]));
+            p.minRaise = Number(setup.blinds[1]);
             p.stacks = setup.initialStacks.map(s => Number(s));
             p.stacks[0] -= sbSet;
             p.stacks[1] -= bbSet;
@@ -47,7 +52,7 @@ export default function HomeRoot() {
                     Solve any postflop spot you like. It's completely <strong>free</strong>!
                 </p>
             </section>
-            <section className="flex flex-col items-center gap-20 px-10 py-16 border-b">
+            <section className="flex flex-col items-center gap-8 px-10 py-16 border-b">
                 <Setup
                     setup={setup}
                     setSetup={setSetup}
@@ -57,6 +62,10 @@ export default function HomeRoot() {
                     availableHeight={height - 80}
                     setup={setup}
                     spot={spot}
+                />
+                <History
+                    spot={spot}
+                    setSpot={setSpot}
                 />
             </section>
         </div>
