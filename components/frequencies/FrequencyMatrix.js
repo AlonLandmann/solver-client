@@ -1,10 +1,10 @@
-import useWindowDimensions from "@/hooks/useWindowDimensions";
+import useWindowWidth from "@/hooks/useWindowWidth";
 import { comboIndices, deckIndices, suits, values } from "@/lib/cards";
 
 export default function FrequencyMatrix({ spot, frequencies, setFrequencies }) {
-    const [width, height] = useWindowDimensions();
+    const windowWidth = useWindowWidth();
     const headerWidth = 30;
-    const cellWidth = Math.max(4, Math.min(10, Math.floor(((width - 80) - headerWidth - 13) / 52)));
+    const cellWidth = Math.max(4, Math.min(10, Math.floor(((windowWidth - 80) - headerWidth - 13) / 52)));
     const blockWidth = 4 * cellWidth;
     const gridWidth = 13 * (blockWidth + 1);
     const totalWidth = gridWidth + headerWidth;

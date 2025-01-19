@@ -1,4 +1,4 @@
-import useWindowDimensions from "@/hooks/useWindowDimensions";
+import useWindowWidth from "@/hooks/useWindowWidth";
 import Background from "./Background";
 import Board from "./Board";
 import CommittedChips from "./CommittedChips";
@@ -7,8 +7,8 @@ import Pot from "./Pot";
 import Seat from "./Seat";
 
 export default function Table({ setup, spot }) {
-    const [width, height] = useWindowDimensions();
-    const tableWidth = Math.max(400, Math.min(710, width - 80));
+    const windowWidth = useWindowWidth();
+    const tableWidth = Math.max(400, Math.min(710, windowWidth - 80));
 
     return (
         <div
