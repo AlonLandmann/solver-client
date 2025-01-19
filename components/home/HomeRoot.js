@@ -57,15 +57,16 @@ export default function HomeRoot() {
                     setup={setup}
                     setSetup={setSetup}
                 />
+                <History
+                    setup={setup}
+                    spot={spot}
+                    setSpot={setSpot}
+                />
                 <Table
                     availableWidth={width - 80}
                     availableHeight={height - 80}
                     setup={setup}
                     spot={spot}
-                />
-                <History
-                    spot={spot}
-                    setSpot={setSpot}
                 />
             </section>
         </div>
