@@ -77,10 +77,15 @@ export default function HomeRoot() {
                     spot={spot}
                 />
             </section>
-            <section className="flex flex-col items-center gap-8 px-10 py-16 bg-neutral-800 bg-opacity-10">
-                <h2 className="text-3xl text-neutral-600 tracking-wider mb-8">
+            <section className="flex flex-col items-center px-10 py-16 bg-neutral-800 bg-opacity-10">
+                <h2 className="text-3xl text-neutral-600 tracking-wider mb-4">
                     FREQUENCIES
                 </h2>
+                <p className="max-w-[64ch] text-neutral-400 text-center mb-12 leading-8">
+                    The solver needs to know which hands each remaining player can have in the defined scenario.
+                    For each hand, a relative frequency should be given between zero and one to distinguish between hands that are more likely in a player's range than others.
+                    A frequency of zero means that the given hand will not appear at all in a player's range.
+                </p>
                 <Frequncies
                     spot={spot}
                     frequencies={frequencies}
