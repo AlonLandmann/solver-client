@@ -38,7 +38,7 @@ function processResult(json, startingStreet, board) {
         const player = json[i].player;
         const infoSetStreet = json[i].street;
         const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, infoSetStreet);
-        const key = json[i].key.join("_");
+        const key = "!" + json[i].key.slice(0, -(2 + nrBoardCardsRevealed)).join("_") + "?" + (nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).join("_") : "");
         const strategy = json[i].strategy;
         const card1 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 2];
         const card2 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 1];
@@ -51,6 +51,7 @@ function processResult(json, startingStreet, board) {
                 street: infoSetStreet,
                 board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),
                 strategies: Array(1326).fill(Array(strategy.length).fill(0)),
+                nrActions: json[i].key.length - 2 - nrBoardCardsRevealed,
             };
         }
 
