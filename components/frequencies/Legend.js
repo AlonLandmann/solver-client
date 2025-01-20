@@ -1,13 +1,13 @@
 import { combos } from "@/lib/cards";
 
-export default function Legend({ frequencies, setSelected }) {
+export default function Legend({ setSelected, playerInEditor, frequencies }) {
     const brushes = {};
 
     for (let i = 0; i < 1326; i++) {
-        if (!(String(frequencies[i]) in brushes)) {
-            brushes[String(frequencies[i])] = [combos[i]];
+        if (!(String(frequencies[playerInEditor][i]) in brushes)) {
+            brushes[String(frequencies[playerInEditor][i])] = [combos[i]];
         } else {
-            brushes[String(frequencies[i])].push(combos[i]);
+            brushes[String(frequencies[playerInEditor][i])].push(combos[i]);
         }
     }
 

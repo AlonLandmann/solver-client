@@ -3,7 +3,7 @@ import Slider from "./Slider";
 import { combos } from "@/lib/cards";
 import { produce } from "immer";
 
-export default function Brush({ spot, selected, setSelected, setFrequencies }) {
+export default function Brush({ spot, selected, setSelected, playerInEditor, setFrequencies }) {
     const [frequency, setFrequency] = useState(500);
 
     function handleApplyBrush() {
@@ -13,9 +13,9 @@ export default function Brush({ spot, selected, setSelected, setFrequencies }) {
                     spot.board.includes(combos[i].slice(0, 2)) ||
                     spot.board.includes(combos[i].slice(2, 4))
                 ) {
-                    p[0][i] = 0;
+                    p[playerInEditor][i] = 0;
                 } else if (selected.includes(combos[i])) {
-                    p[0][i] = frequency;
+                    p[playerInEditor][i] = frequency;
                 }
             }
         }));

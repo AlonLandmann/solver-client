@@ -1,7 +1,7 @@
 import useWindowWidth from "@/hooks/useWindowWidth";
 import { comboIndices, combos, deckIndices, sameComboValues, suits, values } from "@/lib/cards";
 
-export default function Matrix({ spot, selected, setSelected, frequencies }) {
+export default function Matrix({ spot, selected, setSelected, playerInEditor, frequencies }) {
     const windowWidth = useWindowWidth();
     const headerWidth = 30;
     const cellWidth = Math.max(4, Math.min(10, Math.floor(((windowWidth - 80) - headerWidth - 13) / 52)));
@@ -27,13 +27,13 @@ export default function Matrix({ spot, selected, setSelected, frequencies }) {
 
         if (isSelected) {
             return {
-                backgroundColor: `hsl(0, 0%, ${(20 + frequencies[index] * 0.07)}%)`,
+                backgroundColor: `hsl(0, 0%, ${(20 + frequencies[playerInEditor][index] * 0.07)}%)`,
                 borderTop: `${cellWidth}px solid #ff000044`,
             };
         }
 
         return {
-            backgroundColor: `hsl(0, 0%, ${(20 + frequencies[index] * 0.07)}%)`,
+            backgroundColor: `hsl(0, 0%, ${(20 + frequencies[playerInEditor][index] * 0.07)}%)`,
             border: "none",
         };
     }

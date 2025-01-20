@@ -81,7 +81,7 @@ export default function HomeRoot() {
                 <h2 className="text-3xl text-neutral-600 tracking-wider mb-4">
                     FREQUENCIES
                 </h2>
-                <p className="max-w-[64ch] text-neutral-400 text-center mb-12 leading-8">
+                <p className="max-w-[80ch] text-neutral-500 text-center mb-12 leading-8">
                     The solver needs to know which hands each remaining player can have in the defined scenario.
                     A <strong>relative</strong> frequency between zero and a thousand should be given to each hand so that we can distinguish between hands that are more likely in a player's range than others.
                     A frequency of zero means that the given hand will not appear at all in a player's range.
