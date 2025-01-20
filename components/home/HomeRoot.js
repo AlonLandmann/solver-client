@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { produce } from "immer";
 import History from "./History";
 import Frequncies from "../frequencies/Frequencies";
+import { cIntFromCard, combos } from "@/lib/cards";
 
 export default function HomeRoot() {
     const [setup, setSetup] = useState({
@@ -48,6 +49,53 @@ export default function HomeRoot() {
         }));
     }, [setup.blinds, setup.initialStacks]);
 
+    async function runSolver() {
+        const nrCombosPerPlayer = [0, 0, 0, 0, 0, 0];
+        const frequencyTransferData = [];
+
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 1326; j++) {
+                if (frequencies[i][j] > 0) {
+                    nrCombosPerPlayer[i]++;
+                    frequencyTransferData.push(cIntFromCard(combos[j].slice(0, 2)));
+                    frequencyTransferData.push(cIntFromCard(combos[j].slice(2, 4)));
+                    frequencyTransferData.push(frequencies[i][j]);
+                }
+            }
+        }
+
+        const body = {
+            street: spot.street,
+            board: spot.board.map(card => cIntFromCard(card)).concat(Array(5 - spot.board.length).fill(-1)),
+            nrCombosPerPlayer: nrCombosPerPlayer,
+            frequencies: frequencyTransferData,
+            player: spot.player,
+            bigBlind: setup.blinds[1],
+            minRaise: spot.minRaise,
+            hasFolded: spot.hasFolded,
+            hasActed: spot.hasActed,
+            stacks: spot.stacks,
+            committed: spot.committed,
+            mainPotShares: spot.mainPotShares,
+            nrIterations: 1000000,
+        };
+
+        const res = await window.fetch(`http://localhost:8000`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            mode: "cors",
+            body: JSON.stringify(body),
+        });
+
+        const json = await res.json();
+
+        if (json) {
+            console.log(json);
+        } else {
+            console.log("failed");
+        }
+    }
+
     return (
         <div className="bg-neutral-900 min-h-screen">
             <section className="flex flex-col items-center px-10 py-16 border-b bg-neutral-800 bg-opacity-10">
@@ -77,7 +125,7 @@ export default function HomeRoot() {
                     spot={spot}
                 />
             </section>
-            <section className="flex flex-col items-center px-10 py-16 bg-neutral-800 bg-opacity-10">
+            <section className="flex flex-col items-center px-10 py-16 border-b bg-neutral-800 bg-opacity-10">
                 <h2 className="text-3xl text-neutral-600 tracking-wider mb-4">
                     FREQUENCIES
                 </h2>
@@ -91,6 +139,14 @@ export default function HomeRoot() {
                     frequencies={frequencies}
                     setFrequencies={setFrequencies}
                 />
+            </section>
+            <section className="flex flex-col items-center px-10 py-16">
+                <button
+                    className="border rounded-sm px-8 py-4 text-neutral-400 transition hover:text-neutral-200"
+                    onClick={runSolver}
+                >
+                    Run Solver
+                </button>
             </section>
         </div>
     );
