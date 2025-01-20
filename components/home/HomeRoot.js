@@ -4,7 +4,62 @@ import { useEffect, useState } from "react";
 import { produce } from "immer";
 import History from "./History";
 import Frequncies from "../frequencies/Frequencies";
-import { cIntFromCard, combos } from "@/lib/cards";
+import { intToCard, cardToInt, combos, comboIndices } from "@/lib/cards";
+import Result from "../result/Result";
+
+function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
+    if (startingStreet == 0) {
+        if (infoSetStreet == 0) return 0;
+        if (infoSetStreet == 1) return 3;
+        if (infoSetStreet == 2) return 4;
+        if (infoSetStreet == 3) return 5;
+    }
+
+    if (startingStreet == 1) {
+        if (infoSetStreet == 1) return 0;
+        if (infoSetStreet == 2) return 1;
+        if (infoSetStreet == 3) return 2;
+    }
+
+    if (startingStreet == 2) {
+        if (infoSetStreet == 2) return 0;
+        if (infoSetStreet == 3) return 1;
+    }
+
+    if (startingStreet == 3) {
+        if (infoSetStreet == 3) return 0;
+    }
+}
+
+function processResult(json, startingStreet, board) {
+    const result = [{}, {}, {}, {}, {}, {}];
+
+    for (let i = 0; i < json.length; i++) {
+        const player = json[i].player;
+        const infoSetStreet = json[i].street;
+        const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, infoSetStreet);
+        const key = json[i].key.join("_");
+        const strategy = json[i].strategy;
+        const card1 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 2];
+        const card2 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 1];
+
+        if (!(key in result[player])) {
+            result[player][key] = {
+                actions: strategy.map(item => item.action),
+                toCall: json[i].toCall,
+                potBeforeCall: json[i].potBeforeCall,
+                street: infoSetStreet,
+                board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),
+                strategies: Array(1326).fill(Array(strategy.length).fill(0)),
+            };
+        }
+
+        result[player][key].strategies[comboIndices[intToCard(card1) + intToCard(card2)]] = strategy.map(item => item.frequency);
+    }
+
+    console.log(result);
+    return result;
+}
 
 export default function HomeRoot() {
     const [setup, setSetup] = useState({
@@ -36,6 +91,8 @@ export default function HomeRoot() {
         Array(1326).fill(0),
     ]);
 
+    const [result, setResult] = useState(null);
+
     useEffect(() => {
         setSpot(produce(p => {
             const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
@@ -57,8 +114,8 @@ export default function HomeRoot() {
             for (let j = 0; j < 1326; j++) {
                 if (frequencies[i][j] > 0) {
                     nrCombosPerPlayer[i]++;
-                    frequencyTransferData.push(cIntFromCard(combos[j].slice(0, 2)));
-                    frequencyTransferData.push(cIntFromCard(combos[j].slice(2, 4)));
+                    frequencyTransferData.push(cardToInt(combos[j].slice(0, 2)));
+                    frequencyTransferData.push(cardToInt(combos[j].slice(2, 4)));
                     frequencyTransferData.push(frequencies[i][j]);
                 }
             }
@@ -66,7 +123,7 @@ export default function HomeRoot() {
 
         const body = {
             street: spot.street,
-            board: spot.board.map(card => cIntFromCard(card)).concat(Array(5 - spot.board.length).fill(-1)),
+            board: spot.board.map(card => cardToInt(card)).concat(Array(5 - spot.board.length).fill(-1)),
             nrCombosPerPlayer: nrCombosPerPlayer,
             frequencies: frequencyTransferData,
             player: spot.player,
@@ -90,7 +147,8 @@ export default function HomeRoot() {
         const json = await res.json();
 
         if (json) {
-            console.log(json);
+            setResult(processResult(json, spot.street, spot.board));
+            console.log(processResult(json, spot.street, spot.board));
         } else {
             console.log("failed");
         }
@@ -140,7 +198,7 @@ export default function HomeRoot() {
                     setFrequencies={setFrequencies}
                 />
             </section>
-            <section className="flex flex-col items-center px-10 py-16">
+            <section className="flex flex-col items-center px-10 py-16 border-b">
                 <button
                     className="border rounded-sm px-8 py-4 text-neutral-400 transition hover:text-neutral-200"
                     onClick={runSolver}
@@ -148,6 +206,17 @@ export default function HomeRoot() {
                     Run Solver
                 </button>
             </section>
+            {result &&
+                <section className="flex flex-col items-center px-10 py-16 bg-neutral-800 bg-opacity-10">
+                    <h2 className="text-3xl text-neutral-600 tracking-wider mb-4">
+                        RESULT
+                    </h2>
+                    <Result
+                        spot={spot}
+                        result={result}
+                    />
+                </section>
+            }
         </div>
     );
 };
