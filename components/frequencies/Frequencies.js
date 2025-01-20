@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Brush from "./Brush";
 import Matrix from "./Matrix";
+import Legend from "./Legend";
 
 export default function Frequncies({ spot, frequencies, setFrequencies }) {
     const [selected, setSelected] = useState([]);
@@ -17,12 +18,18 @@ export default function Frequncies({ spot, frequencies, setFrequencies }) {
                 setSelected={setSelected}
                 frequencies={frequencies[0]}
             />
-            <Brush
-                spot={spot}
-                selected={selected}
-                setSelected={setSelected}
-                setFrequencies={setFrequencies}
-            />
+            <div>
+                <Brush
+                    spot={spot}
+                    selected={selected}
+                    setSelected={setSelected}
+                    setFrequencies={setFrequencies}
+                />
+                <Legend
+                    setSelected={setSelected}
+                    frequencies={frequencies[0]}
+                />
+            </div>
         </div>
     );
 };
