@@ -35,7 +35,7 @@ export default function SetupStorage({ setup, setSetup, spot, setSpot, frequenci
             return window.alert("A save with this name doesn't exist");
         }
 
-        setSetup(saves[loadName].setup);
+        setSetup({ ...saves[loadName].setup, loadedSetup: true });
         setSpot(saves[loadName].spot);
         setFrequencies(saves[loadName].frequencies);
     }

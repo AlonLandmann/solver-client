@@ -88,6 +88,7 @@ export default function HomeRoot() {
         initialStacks: ["200", "200", "200", "200", "200", "200"],
         heroPosition: 2,
         holeCards: ["Ad", "Kd"],
+        loadedSetup: false,
     });
 
     const [spot, setSpot] = useState({
@@ -115,6 +116,7 @@ export default function HomeRoot() {
     const [result, setResult] = useState(null);
 
     useEffect(() => {
+        if (!setup.loadedSetup) {
         setSpot(produce(p => {
             const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
             const bbSet = Math.min(Number(setup.initialStacks[1]), Number(setup.blinds[1]));
@@ -125,6 +127,7 @@ export default function HomeRoot() {
             p.committed[0] = sbSet;
             p.committed[1] = bbSet;
         }));
+        }
     }, [setup.blinds, setup.initialStacks]);
 
     async function runSolver() {
