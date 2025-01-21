@@ -31,35 +31,54 @@ function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
     }
 }
 
-function processResult(json, startingStreet, board) {
-    const result = [{}, {}, {}, {}, {}, {}];
+function processResultCompletely(json, startingStreet, board) {
+    const nodes = {};
 
     for (let i = 0; i < json.length; i++) {
-        const player = json[i].player;
-        const infoSetStreet = json[i].street;
-        const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, infoSetStreet);
-        const key = "!" + json[i].key.slice(0, -(2 + nrBoardCardsRevealed)).join("_") + "?" + (nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).join("_") : "");
-        const strategy = json[i].strategy;
-        const card1 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 2];
-        const card2 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 1];
+        const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, json[i].street);
+        const actionString = json[i].key.slice(0, -(2 + nrBoardCardsRevealed)).join("_");
+        const boardString = nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).join("_") : "";
+        const key = `${actionString}:${boardString}`;
 
-        if (!(key in result[player])) {
-            result[player][key] = {
-                actions: strategy.map(item => item.action),
+        if (!(key in nodes)) {
+            nodes[key] = {
+                player: json[i].player,
                 toCall: json[i].toCall,
                 potBeforeCall: json[i].potBeforeCall,
-                street: infoSetStreet,
                 board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),
-                strategies: Array(1326).fill(Array(strategy.length).fill(0)),
-                nrActions: json[i].key.length - 2 - nrBoardCardsRevealed,
+                actions: json[i].strategy.map(item => item.action),
+                frequencies: Array(1326).fill(0),                                       // <--- still have to fill info somehow
+                strategies: Array(1326).fill(Array(json[i].strategy.length).fill(0)),     // <--- renamed from "strategies"
             };
         }
 
-        result[player][key].strategies[comboIndices[intToCard(card1) + intToCard(card2)]] = strategy.map(item => item.frequency);
+        const card1 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 2];
+        const card2 = json[i].key[json[i].key.length - nrBoardCardsRevealed - 1];
+        const comboIndex = comboIndices[intToCard(card1) + intToCard(card2)];
+
+        nodes[key].strategies[comboIndex] = json[i].strategy.map(item => item.frequency);
     }
 
-    console.log(result);
-    return result;
+    for (let key in nodes) {
+        const actionString = key.split(":")[0];
+        const boardString = key.split(":")[1];
+
+        if (actionString === "") {
+            nodes[key].parentKey = null;
+            continue;
+        }
+
+        const actions = actionString.split("_");
+
+        if (actions.length === 1) {
+            nodes[key].parentKey = "";
+            continue;
+        }
+
+        nodes[key].parentKey = actions.slice(0, actions.length - 1).join("_");
+    }
+
+    return nodes;
 }
 
 export default function HomeRoot() {
@@ -148,8 +167,7 @@ export default function HomeRoot() {
         const json = await res.json();
 
         if (json) {
-            setResult(processResult(json, spot.street, spot.board));
-            console.log(processResult(json, spot.street, spot.board));
+            setResult(processResultCompletely(json, spot.street, spot.board));
         } else {
             console.log("failed");
         }
@@ -214,6 +232,7 @@ export default function HomeRoot() {
                     </h2>
                     <Result
                         spot={spot}
+                        frequencies={frequencies}
                         result={result}
                     />
                 </section>
