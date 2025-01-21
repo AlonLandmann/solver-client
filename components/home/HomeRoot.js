@@ -6,6 +6,7 @@ import History from "./History";
 import Frequncies from "../frequencies/Frequencies";
 import { intToCard, cardToInt, combos, comboIndices } from "@/lib/cards";
 import Result from "../result/Result";
+import SetupStorage from "./SetupStorage";
 
 function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
     if (startingStreet == 0) {
@@ -218,6 +219,19 @@ export default function HomeRoot() {
                 />
             </section>
             <section className="flex flex-col items-center px-10 py-16 border-b">
+                <h2 className="text-3xl text-neutral-600 tracking-wider mb-12">
+                    SOLVER
+                </h2>
+                <div className="mb-12">
+                    <SetupStorage
+                        setup={setup}
+                        setSetup={setSetup}
+                        spot={spot}
+                        setSpot={setSpot}
+                        frequencies={frequencies}
+                        setFrequencies={setFrequencies}
+                    />
+                </div>
                 <button
                     className="border rounded-sm px-8 py-4 text-neutral-400 transition hover:text-neutral-200"
                     onClick={runSolver}
@@ -227,7 +241,7 @@ export default function HomeRoot() {
             </section>
             {result &&
                 <section className="flex flex-col items-center px-10 py-16 bg-neutral-800 bg-opacity-10">
-                    <h2 className="text-3xl text-neutral-600 tracking-wider mb-4">
+                    <h2 className="text-3xl text-neutral-600 tracking-wider mb-12">
                         RESULT
                     </h2>
                     <Result
