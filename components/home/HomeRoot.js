@@ -32,7 +32,7 @@ function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
     }
 }
 
-function processResultCompletely(json, startingStreet, board) {
+function processResultCompletely(json, startingStreet, board, frequencies) {
     const nodes = {};
 
     for (let i = 0; i < json.length; i++) {
@@ -48,8 +48,10 @@ function processResultCompletely(json, startingStreet, board) {
                 potBeforeCall: json[i].potBeforeCall,
                 board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),
                 actions: json[i].strategy.map(item => item.action),
-                frequencies: Array(1326).fill(0),                                       // <--- still have to fill info somehow
-                strategies: Array(1326).fill(Array(json[i].strategy.length).fill(0)),     // <--- renamed from "strategies"
+                frequencies: null,
+                strategies: Array(1326).fill(Array(json[i].strategy.length).fill(0)),
+                parentKey: null,
+                childKeys: [],
             };
         }
 
@@ -62,7 +64,6 @@ function processResultCompletely(json, startingStreet, board) {
 
     for (let key in nodes) {
         const actionString = key.split(":")[0];
-        const boardString = key.split(":")[1];
 
         if (actionString === "") {
             nodes[key].parentKey = null;
@@ -71,13 +72,37 @@ function processResultCompletely(json, startingStreet, board) {
 
         const actions = actionString.split("_");
 
+        let parentActionString;
+
         if (actions.length === 1) {
-            nodes[key].parentKey = "";
-            continue;
+            parentActionString = "";
+        } else {
+            parentActionString = actions.slice(0, actions.length - 1).join("_");
         }
 
-        nodes[key].parentKey = actions.slice(0, actions.length - 1).join("_");
+        const parentKey = Object.keys(nodes).find(k => k.slice(0, parentActionString.length) === parentActionString);
+
+        nodes[key].parentKey = parentKey;
+        nodes[parentKey].childKeys.push(key);
     }
+
+    nodes[":"].frequencies = produce(frequencies, p => { });
+
+    function passFrequenciesOnToChildren(node) {
+        for (const childKey of node.childKeys) {
+            const childActionHistoryItems = childKey.split(":")[0].split("_");
+            const lastAction = Number(childActionHistoryItems[childActionHistoryItems.length - 1]);
+            const lastActionIndex = node.actions.indexOf(lastAction);
+
+            nodes[childKey].frequencies = produce(node.frequencies, p => {
+                p[node.player] = node.frequencies[node.player].map((f, i) => f * node.strategies[lastActionIndex]);
+            });
+
+            passFrequenciesOnToChildren(nodes[childKey]);
+        }
+    }
+
+    passFrequenciesOnToChildren(nodes[":"]);
 
     return nodes;
 }
@@ -117,16 +142,16 @@ export default function HomeRoot() {
 
     useEffect(() => {
         if (!setup.loadedSetup) {
-        setSpot(produce(p => {
-            const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
-            const bbSet = Math.min(Number(setup.initialStacks[1]), Number(setup.blinds[1]));
-            p.minRaise = Number(setup.blinds[1]);
-            p.stacks = setup.initialStacks.map(s => Number(s));
-            p.stacks[0] -= sbSet;
-            p.stacks[1] -= bbSet;
-            p.committed[0] = sbSet;
-            p.committed[1] = bbSet;
-        }));
+            setSpot(produce(p => {
+                const sbSet = Math.min(Number(setup.initialStacks[0]), Number(setup.blinds[0]));
+                const bbSet = Math.min(Number(setup.initialStacks[1]), Number(setup.blinds[1]));
+                p.minRaise = Number(setup.blinds[1]);
+                p.stacks = setup.initialStacks.map(s => Number(s));
+                p.stacks[0] -= sbSet;
+                p.stacks[1] -= bbSet;
+                p.committed[0] = sbSet;
+                p.committed[1] = bbSet;
+            }));
         }
     }, [setup.blinds, setup.initialStacks]);
 
@@ -171,7 +196,7 @@ export default function HomeRoot() {
         const json = await res.json();
 
         if (json) {
-            setResult(processResultCompletely(json, spot.street, spot.board));
+            setResult(processResultCompletely(json, spot.street, spot.board, frequencies));
         } else {
             console.log("failed");
         }
@@ -248,8 +273,6 @@ export default function HomeRoot() {
                         RESULT
                     </h2>
                     <Result
-                        spot={spot}
-                        frequencies={frequencies}
                         result={result}
                     />
                 </section>

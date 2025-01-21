@@ -2,7 +2,7 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { comboIndices, deckIndices, suits, values } from "@/lib/cards";
 import { outputColor } from "@/lib/colors";
 
-export default function ResultMatrix({ spot, frequencies, result }) {
+export default function ResultMatrix({ resultNode }) {
     const windowWidth = useWindowWidth();
     const headerWidth = 30;
     const cellWidth = Math.max(4, Math.min(10, Math.floor(((windowWidth - 80) - headerWidth - 13) / 52)));
@@ -18,7 +18,7 @@ export default function ResultMatrix({ spot, frequencies, result }) {
             return { backgroundColor: "#181818" };
         }
 
-        if (spot.board.includes(card1) || spot.board.includes(card2)) {
+        if (resultNode.board.includes(card1) || resultNode.board.includes(card2)) {
             return { backgroundColor: "#181818" };
         }
 
@@ -26,16 +26,16 @@ export default function ResultMatrix({ spot, frequencies, result }) {
         const combo = isTopRight ? card1 + card2 : card2 + card1;
         const index = comboIndices[combo];
 
-        if (!isTopRight || frequencies[spot.player][index] === 0) {
-            return { backgroundColor: `hsl(0, 0%, ${(20 + frequencies[spot.player][index] * 0.07)}%)` };
+        if (!isTopRight || resultNode.frequencies[resultNode.player][index] === 0) {
+            return { backgroundColor: `hsl(0, 0%, ${(20 + resultNode.frequencies[resultNode.player][index] * 0.07)}%)` };
         }
 
         return {
             backgroundColor: outputColor(
-                result[":"].actions,
-                result[":"].toCall,
-                result[":"].potBeforeCall,
-                result[":"].strategies[comboIndices[combo]],
+                resultNode.actions,
+                resultNode.toCall,
+                resultNode.potBeforeCall,
+                resultNode.strategies[comboIndices[combo]],
             ),
         };
     }
