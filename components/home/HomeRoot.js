@@ -35,17 +35,26 @@ function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
 function processResultCompletely(json, startingStreet, board, frequencies) {
     const nodes = {};
 
+    console.log(json); // <---
+
     for (let i = 0; i < json.length; i++) {
         const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, json[i].street);
         const actionString = json[i].key.slice(0, -(2 + nrBoardCardsRevealed)).join("_");
         const boardString = nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).join("_") : "";
         const key = `${actionString}:${boardString}`;
 
+
         if (!(key in nodes)) {
+
+            if (json[i].player === -1) {
+                console.log("-1 node");
+            }
+
             nodes[key] = {
                 key: key,
                 player: json[i].player,
                 street: json[i].street,
+                committed: json[i].committed,
                 toCall: json[i].toCall,
                 potBeforeCall: json[i].potBeforeCall,
                 board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),

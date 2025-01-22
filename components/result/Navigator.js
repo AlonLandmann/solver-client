@@ -25,7 +25,7 @@ function actionIntegerToActionDisplay(actionInteger, resultNode) {
         } else if (actionInteger <= resultNode.toCall) {
             return `Call ${actionInteger}`;
         } else if (actionInteger > resultNode.toCall) {
-            return `Raise to ${resultNode.committed[resultNode.player] + actionInteger}`;
+            return `Raise to ${resultNode.committed + actionInteger}`;
         }
     } else if (resultNode.toCall === 0) {
         if (actionInteger === 0) {
