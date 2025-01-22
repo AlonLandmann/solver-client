@@ -97,7 +97,7 @@ function processResultCompletely(json, startingStreet, board, frequencies) {
             const lastActionIndex = node.actions.indexOf(lastAction);
 
             nodes[childKey].frequencies = produce(node.frequencies, p => {
-                p[node.player] = node.frequencies[node.player].map((f, i) => f * node.strategies[lastActionIndex]);
+                p[node.player] = node.frequencies[node.player].map((f, i) => f * node.strategies[i][lastActionIndex]);
             });
 
             passFrequenciesOnToChildren(nodes[childKey]);
