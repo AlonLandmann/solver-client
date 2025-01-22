@@ -43,7 +43,9 @@ function processResultCompletely(json, startingStreet, board, frequencies) {
 
         if (!(key in nodes)) {
             nodes[key] = {
+                key: key,
                 player: json[i].player,
+                street: json[i].street,
                 toCall: json[i].toCall,
                 potBeforeCall: json[i].potBeforeCall,
                 board: board.concat(nrBoardCardsRevealed > 0 ? json[i].key.slice(-nrBoardCardsRevealed).map(int => intToCard(int)) : []),

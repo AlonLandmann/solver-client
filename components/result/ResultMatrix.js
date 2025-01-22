@@ -2,7 +2,7 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { comboIndices, deckIndices, suits, values } from "@/lib/cards";
 import { outputColor } from "@/lib/colors";
 
-export default function ResultMatrix({ resultNode }) {
+export default function ResultMatrix({ resultNode, hovered }) {
     const windowWidth = useWindowWidth();
     const headerWidth = 30;
     const cellWidth = Math.max(4, Math.min(10, Math.floor(((windowWidth - 80) - headerWidth - 13) / 52)));
@@ -25,12 +25,17 @@ export default function ResultMatrix({ resultNode }) {
         const isTopRight = deckIndices[card1] < deckIndices[card2];
         const combo = isTopRight ? card1 + card2 : card2 + card1;
         const index = comboIndices[combo];
+        const isHovered = hovered.length === 0 || hovered.includes(combo);
 
         if (!isTopRight || resultNode.frequencies[resultNode.player][index] === 0) {
-            return { backgroundColor: `hsl(0, 0%, ${(20 + resultNode.frequencies[resultNode.player][index] * 0.07)}%)` };
+            return {
+                opacity: isHovered ? 1 : 0.05,
+                backgroundColor: `hsl(0, 0%, ${(20 + resultNode.frequencies[resultNode.player][index] * 0.07)}%)`,
+            };
         }
 
         return {
+            opacity: isHovered ? 1 : 0.05, 
             backgroundColor: outputColor(
                 resultNode.actions,
                 resultNode.toCall,
