@@ -2,6 +2,7 @@ import { useState } from "react";
 import ResultMatrix from "./ResultMatrix";
 import Board from "../table/Board";
 import Categories from "./Categories";
+import Navigator from "./Navigator";
 
 const positions = [
     "Small Blind",
@@ -11,7 +12,6 @@ const positions = [
     "Cutoff",
     "Dealer Button",
 ];
-
 
 export default function Result({ result }) {
     const [resultNode, setResultNode] = useState(result[":"]);
@@ -24,9 +24,6 @@ export default function Result({ result }) {
                     {positions[resultNode.player]}
                 </div>
                 <div>
-                    {resultNode.key}
-                </div>
-                <div>
                     <Board
                         tableWidth={710}
                         board={resultNode.board}
@@ -37,24 +34,12 @@ export default function Result({ result }) {
                 className="grid gap-12"
                 style={{ gridTemplateColumns: "1fr 2fr 1fr" }}
             >
-                <div className="py-6 flex flex-col">
-                    {resultNode.parentKey &&
-                        <button
-                            className="px-3 py-2 border rounded-sm text-neutral-300 cursor-pointer transition hover:text-neutral-100"
-                            onClick={() => setResultNode(result[resultNode.parentKey])}
-                        >
-                            <i className="bi bi-arrow-left"></i>
-                        </button>
-                    }
-                    {resultNode.childKeys.map(childKey => (
-                        <button
-                            key={childKey}
-                            className="px-3 py-2 border rounded-sm text-neutral-300 cursor-pointer transition hover:text-neutral-100"
-                            onClick={() => setResultNode(result[childKey])}
-                        >
-                            {childKey}
-                        </button>
-                    ))}
+                <div className="py-6">
+                    <Navigator
+                        result={result}
+                        resultNode={resultNode}
+                        setResultNode={setResultNode}
+                    />
                 </div>
                 <ResultMatrix
                     resultNode={resultNode}
