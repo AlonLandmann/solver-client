@@ -32,7 +32,7 @@ export default function Result({ result }) {
             </div>
             <div
                 className="grid gap-12"
-                style={{ gridTemplateColumns: "1fr 2fr 1fr" }}
+                style={{ gridTemplateColumns: "320px 1fr 320px" }}
             >
                 <div className="py-6">
                     <Navigator
