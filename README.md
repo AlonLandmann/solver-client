@@ -4,4 +4,4 @@ This repo contains the client facing end of a Texas Hold'em Poker Solver I am de
 The repository of the solver code is private.
 Please contact me at alonlandmann@proton.me for more information.
 
-[**DEMO VIDEO**](https://youtu.be/S8RV61aWX8c)
+[**57 second demonstration Video **](https://youtu.be/S8RV61aWX8c).
