@@ -46,6 +46,7 @@ export default function Table({ setup, spot }) {
                     hasFolded={spot.hasFolded}
                     lastActions={spot.lastActions}
                     stacks={spot.stacks}
+                    actingPlayer={spot.player}
                 />
             ))}
             {Array(6).fill(null).map((_, i) => (

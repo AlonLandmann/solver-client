@@ -3,7 +3,7 @@ import Card from "./Card";
 
 const positions = ["SB", "BB", "UTG", "HJ", "CO", "BTN"];
 
-export default function Seat({ tableWidth, heroPosition, seatOffset, holeCards, hasFolded, lastActions, stacks }) {
+export default function Seat({ tableWidth, heroPosition, seatOffset, holeCards, hasFolded, lastActions, stacks, actingPlayer }) {
     const p = (heroPosition + seatOffset) % 6;
 
     const horizontal = scaleTableStyle(45, tableWidth, 2, 0);
@@ -21,13 +21,13 @@ export default function Seat({ tableWidth, heroPosition, seatOffset, holeCards, 
 
     return (
         <div
-            className="absolute flex flex-col items-center gap-[1px] z-10"
+            className={`absolute px-1 flex flex-col items-center gap-[1px] z-10 border rounded-sm self-stretch text-center ${p === actingPlayer ? "border-pink-600" : "border-neutral-900"}`}
             style={{
                 ...layout[seatOffset],
                 fontSize: scaleTableStyle(14, tableWidth, 0.5, 10),
             }}
         >
-            <div className="text-neutral-500">
+            <div className={`text-neutral-500 `}>
                 {positions[p]}
             </div>
             <div className={`flex justify-center gap-[2px] ${hasFolded[p] ? "opacity-10" : ""}`}>
