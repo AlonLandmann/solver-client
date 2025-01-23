@@ -20,6 +20,7 @@ export default function NavItem({ result, resultNode, setResultNode, navInfo }) 
 
     function checkDisabled() {
         return (
+            navInfo.streetAdvance === null ||
             (navInfo.streetAdvance === "Flop" && (!flop[0] || !flop[1] || !flop[2])) ||
             (navInfo.streetAdvance === "Turn" && !turn) ||
             (navInfo.streetAdvance === "River" && !river)

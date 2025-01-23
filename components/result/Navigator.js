@@ -49,21 +49,36 @@ function determineStreetAdvance(result, resultNode, childKey) {
 }
 
 function getActionNavInfo(result, resultNode) {
-    const actionNavInfo = [];
+    const actionNavInfo = {};
 
     for (const childKey of resultNode.childKeys) {
         const actionInteger = determineLastActionInteger(childKey);
-        const actionDisplay = actionIntegerToActionDisplay(actionInteger, resultNode);
-        const streetAdvance = determineStreetAdvance(result, resultNode, childKey);
-        const actionColor = optionColor(actionInteger, resultNode.toCall, resultNode.potBeforeCall);
 
-        if (!actionNavInfo.map(nav => nav.actionDisplay).includes(actionDisplay)) {
-            actionNavInfo.push({
+        if (!(String(actionInteger) in actionNavInfo)) {
+            const actionDisplay = actionIntegerToActionDisplay(actionInteger, resultNode);
+            const streetAdvance = determineStreetAdvance(result, resultNode, childKey);
+            const actionColor = optionColor(actionInteger, resultNode.toCall, resultNode.potBeforeCall);
+
+            actionNavInfo[String(actionInteger)] = {
                 actionDisplay,
                 streetAdvance,
                 childKey,
                 actionColor,
-            });
+            };
+        }
+    }
+
+    for (const action of resultNode.actions) {
+        if (!(String(action) in actionNavInfo)) {
+            const actionDisplay = actionIntegerToActionDisplay(action, resultNode);
+            const actionColor = optionColor(action, resultNode.toCall, resultNode.potBeforeCall);
+
+            actionNavInfo[String(action)] = {
+                actionDisplay,
+                streetAdvance: null,
+                childKey: null,
+                actionColor,
+            };
         }
     }
 
@@ -83,13 +98,13 @@ export default function Navigator({ result, resultNode, setResultNode }) {
                     <i className="bi bi-arrow-left"></i>
                 </button>
             }
-            {actionNavInfo.map((navInfo, i) => (
+            {Object.keys(actionNavInfo).map(actionInteger => (
                 <NavItem
-                    key={"nav-" + i}
+                    key={"nav-" + actionInteger}
                     result={result}
                     resultNode={resultNode}
                     setResultNode={setResultNode}
-                    navInfo={navInfo}
+                    navInfo={actionNavInfo[actionInteger]}
                 />
             ))}
         </div>
