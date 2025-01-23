@@ -54,6 +54,7 @@ function processResultCompletely(json, startingStreet, board, frequencies) {
                 key: key,
                 player: json[i].player,
                 street: json[i].street,
+                stack: json[i].stack,
                 committed: json[i].committed,
                 toCall: json[i].toCall,
                 potBeforeCall: json[i].potBeforeCall,

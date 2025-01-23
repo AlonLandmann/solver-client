@@ -20,19 +20,21 @@ function determineLastActionInteger(key) {
 }
 
 function actionIntegerToActionDisplay(actionInteger, resultNode) {
+    const isAllIn = actionInteger === resultNode.stack;
+
     if (resultNode.toCall > 0) {
         if (actionInteger === 0) {
             return "Fold";
         } else if (actionInteger <= resultNode.toCall) {
-            return `Call ${actionInteger}`;
+            return `Call ${actionInteger}${isAllIn ? " - All In" : ""}`;
         } else if (actionInteger > resultNode.toCall) {
-            return `Raise to ${resultNode.committed + actionInteger}`;
+            return `Raise to ${resultNode.committed + actionInteger}${isAllIn ? " - All In" : ""}`;
         }
     } else if (resultNode.toCall === 0) {
         if (actionInteger === 0) {
             return "Check";
         } else if (actionInteger > 0) {
-            return `Bet ${actionInteger}`;
+            return `Bet ${actionInteger}${isAllIn ? " - All In" : ""}`;
         }
     }
 }

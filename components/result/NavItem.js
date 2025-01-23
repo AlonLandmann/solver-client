@@ -63,7 +63,7 @@ export default function NavItem({ result, resultNode, setResultNode, navInfo }) 
     return (
         <div className="flex gap-1">
             <button
-                className="w-32 px-3 py-2 border flex gap-3 items-center rounded-sm text-neutral-400 cursor-pointer transition hover:text-neutral-100 disabled:cursor-default disabled:text-neutral-600 disabled:hover:text-neutral-600"
+                className="w-52 px-3 py-2 border flex gap-3 items-center rounded-sm text-neutral-400 cursor-pointer transition hover:text-neutral-100 disabled:cursor-default disabled:hover:text-neutral-400"
                 disabled={checkDisabled()}
                 onClick={handleNavToChildNode}
             >
