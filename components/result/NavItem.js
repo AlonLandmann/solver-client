@@ -62,11 +62,19 @@ export default function NavItem({ result, resultNode, setResultNode, navInfo }) 
     return (
         <div className="flex gap-1">
             <button
-                className="w-32 px-3 py-2 border rounded-sm text-neutral-400 cursor-pointer transition hover:text-neutral-100 disabled:cursor-default disabled:text-neutral-600 disabled:hover:text-neutral-600"
+                className="w-32 px-3 py-2 border flex gap-3 items-center rounded-sm text-neutral-400 cursor-pointer transition hover:text-neutral-100 disabled:cursor-default disabled:text-neutral-600 disabled:hover:text-neutral-600"
                 disabled={checkDisabled()}
                 onClick={handleNavToChildNode}
             >
-                {navInfo.actionDisplay}
+                <div
+                    className="w-3 h-3 rounded-sm"
+                    style={{ backgroundColor: navInfo.actionColor }}
+                >
+                    
+                </div>
+                <div className="text-left text-nowrap">
+                    {navInfo.actionDisplay}
+                </div>
             </button>
             {navInfo.streetAdvance === "Flop" && flop.map((_, i) => (
                 <select

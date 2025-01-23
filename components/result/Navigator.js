@@ -1,3 +1,4 @@
+import { optionColor } from "@/lib/colors";
 import NavItem from "./NavItem";
 
 const streets = ["Preflop", "Flop", "Turn", "River"];
@@ -51,14 +52,17 @@ function getActionNavInfo(result, resultNode) {
     const actionNavInfo = [];
 
     for (const childKey of resultNode.childKeys) {
-        const actionDisplay = actionIntegerToActionDisplay(determineLastActionInteger(childKey), resultNode);
+        const actionInteger = determineLastActionInteger(childKey);
+        const actionDisplay = actionIntegerToActionDisplay(actionInteger, resultNode);
         const streetAdvance = determineStreetAdvance(result, resultNode, childKey);
+        const actionColor = optionColor(actionInteger, resultNode.toCall, resultNode.potBeforeCall);
 
         if (!actionNavInfo.map(nav => nav.actionDisplay).includes(actionDisplay)) {
             actionNavInfo.push({
                 actionDisplay,
                 streetAdvance,
                 childKey,
+                actionColor,
             });
         }
     }
