@@ -7,6 +7,7 @@ import Frequncies from "../frequencies/Frequencies";
 import { intToCard, cardToInt, combos, comboIndices } from "@/lib/cards";
 import Result from "../result/Result";
 import SetupStorage from "./SetupStorage";
+import AsyncButton from "../_common/AsyncButton";
 
 function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
     if (startingStreet == 0) {
@@ -34,8 +35,6 @@ function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
 
 function processResultCompletely(json, startingStreet, board, frequencies) {
     const nodes = {};
-
-    console.log(json); // <---
 
     for (let i = 0; i < json.length; i++) {
         const nrBoardCardsRevealed = getNrBoardCardsRevealed(startingStreet, json[i].street);
@@ -272,12 +271,12 @@ export default function HomeRoot() {
                         setFrequencies={setFrequencies}
                     />
                 </div>
-                <button
-                    className="border rounded-sm px-8 py-4 text-neutral-400 transition hover:text-neutral-200"
+                <AsyncButton
+                    utilClasses="border rounded-sm px-8 py-4 text-neutral-400 transition hover:text-neutral-200"
                     onClick={runSolver}
                 >
                     Run Solver
-                </button>
+                </AsyncButton>
             </section>
             {result &&
                 <section className="flex flex-col items-center px-10 py-16 bg-neutral-800 bg-opacity-10">
