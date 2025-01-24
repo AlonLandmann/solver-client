@@ -54,8 +54,23 @@ If one hand has a frequency of 1000, and the other a frequency of 250, the solve
 ![Frequencies](public/readme/frequencies.png)
 
 ## Results
-![Result 1](public/readme/result-1.png.gif)
+The results of the solver-run are displayed in range-matrix format. The grids consist of 52 rows and columns each associated with one particular playing card.
+Each cell therefore then corresponds to a particular 2-card combination that can be dealt to a player in Texas Hold'em games.
+The headers only show the value information "A - Ace, K - King, etc." for a group of four columns or rows,
+but each such group is further divided by the suit of the card in the following order: spade, heart, diamond, club. This means for each non-paired hand there are 16 combos, 12 off-suit ones, and 4 where both cards are of the same suit. These four combos appear on the diagonal of the larger cells. The paired hands, like AA and KK, which appear on the main diagonal, there are only 6 suit combinations.
 
-![Result 2](public/readme/result-2.png.gif)
+The entire grid is split into two halves along the main diagonal. Because the order of the cards in your hand doesn't matter (i.e. Ah Kd is the same as Kd Ah), each of the 1326 possible hands actually appears twice in the grid, and the corresponding cells are mirrored accross the main diagonal. The two halves display different information. The lower left is only in gray-scale and again displays the relative frequency with which a certain hand appears in the player's range in that spot. A brighter color means a higher frequency for this hand. The top right half of the matrix shows the equilibrium strategy that was calculated.
 
-![Result 2 hover](public/readme/result-2-hover.png.gif)
+On the left we can see the different options that have been explored for this given spot for the player, and each option is given a color: Blue for folding, Green for calling and checking, and a color from a spectrum ranging from yellow over orange and red to magenta for bets and raises. The larger the bet or raise size is relative to the pot, the more the hue of the color is shifted towards the red and magenta end of the spectrum.
+
+The Nash Equilibrium proposes that some of the hands play a mixed strategy, performing some actions a certain percentage of the time, and others the remaining percentage of the time. This is captured by the colors respective action colors being mixed in a weighted sum.
+
+The right-hand side panel categorizes all the hands in the matrix into the different hand strengths that exist in poker, such as straights, flushes, 2 pair, etc. It also captures ideas such as flush and straight draws, which are hands that have 4 equal suits or 4 cards to a straight, which only need one more to make a flush or straight respectively. The user can hover over each of these categories, and the corresponding hands will then be highlighted for them to investigate. Each category also has an over-all display showing how the hands in this category are to be played on average.
+
+Finally, the user can use the left-hand action panel to navigate forward down the game tree and investigate how his opponents should play, and how he himself should play following their responses.
+
+![Result 1](public/readme/result-1.png)
+
+![Result 2](public/readme/result-2.png)
+
+![Result 2 hover](public/readme/result-2-hover.png)
