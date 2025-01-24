@@ -20,8 +20,8 @@ This is then called a Nash Equilibrium, and we can make an argument that such a 
 
 Poker also has a Nash Equilbirium. With more than two players, things get more subtle, and poker is also a much more complicated game.
 So the best we can do is to use numerical methods, machine learning, and other techniques to try and approximate this nash equilibrium.
-The solver that underlies this front-end is based on the [Counter-Factual Regret Algorithm](https://proceedings.neurips.cc/paper/2007/file/08d98638c6fcd194a4b1e6992063e944-Paper.pdf) first proposed in 2007,
-and implemented in C. Please contact me for access to this code.
+The solver that underlies this front-end is based on the [Counter-Factual Regret Algorithm](https://proceedings.neurips.cc/paper/2007/file/08d98638c6fcd194a4b1e6992063e944-Paper.pdf) first proposed in 2007.
+It is implemented entirely in C. Please contact me for access to this code.
 
 ## How this solver works
 To work with this solver, you first define the in-game scenario you wish to investigate by defining a multitude of parameters.
