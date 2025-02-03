@@ -33,7 +33,7 @@ export default function Brush({ spot, selected, setSelected, playerInEditor, set
                     max={1000}
                     step={1}
                     value={frequency}
-                    onChange={e => setFrequency(e.target.value)}
+                    onChange={e => setFrequency(Number(e.target.value))}
                 />
                 <Slider
                     frequency={frequency}

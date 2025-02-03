@@ -12,7 +12,7 @@ const positions = [
     "Dealer Button",
 ];
 
-export default function Frequncies({ spot, frequencies, setFrequencies }) {
+export default function Frequencies({ spot, frequencies, setFrequencies }) {
     const [playerInEditor, setPlayerInEditor] = useState(0);
     const [selected, setSelected] = useState([]);
 

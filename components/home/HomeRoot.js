@@ -3,11 +3,11 @@ import Setup from "./Setup";
 import { useEffect, useState } from "react";
 import { produce } from "immer";
 import History from "./History";
-import Frequncies from "../frequencies/Frequencies";
 import { intToCard, cardToInt, combos, comboIndices } from "@/lib/cards";
 import Result from "../result/Result";
 import SetupStorage from "./SetupStorage";
 import AsyncButton from "../_common/AsyncButton";
+import Frequencies from "../frequencies/Frequencies";
 
 function getNrBoardCardsRevealed(startingStreet, infoSetStreet) {
     if (startingStreet == 0) {
@@ -187,7 +187,7 @@ export default function HomeRoot() {
             nrCombosPerPlayer: nrCombosPerPlayer,
             frequencies: frequencyTransferData,
             player: spot.player,
-            bigBlind: setup.blinds[1],
+            bigBlind: Number(setup.blinds[1]),
             minRaise: spot.minRaise,
             hasFolded: spot.hasFolded,
             hasActed: spot.hasActed,
@@ -251,7 +251,7 @@ export default function HomeRoot() {
                     A <strong>relative</strong> frequency between zero and a thousand should be given to each hand so that we can distinguish between hands that are more likely in a player's range than others.
                     A frequency of zero means that the given hand will not appear at all in a player's range.
                 </p>
-                <Frequncies
+                <Frequencies
                     spot={spot}
                     frequencies={frequencies}
                     setFrequencies={setFrequencies}
