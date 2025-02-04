@@ -22,7 +22,7 @@ function suitIcon(suit) {
     return `bi bi-suit-${map[suit]}-fill`;
 }
 
-export default function Card({ tableWidth, card }) {
+export default function Card({ tableWidth = 710, card }) {
     return (
         <div
             className="relative flex justify-center items-center rounded-[3px] text-neutral-400 overflow-hidden"

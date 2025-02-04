@@ -20,7 +20,7 @@ export default function Result({ result }) {
     const [detailedCombo, setDetailedCombo] = useState(null);
 
     return (
-        <div>
+        <div className="pb-40">
             <div className="flex flex-col items-center py-6 gap-6">
                 <div className="text-center text-xl text-neutral-400">
                     {positions[resultNode.player]}
