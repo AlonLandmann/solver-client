@@ -29,7 +29,7 @@ export default function ResultDetails({ resultNode, detailedCombo }) {
                     resultNode={resultNode}
                     strategy={strategy}
                 />
-                <div className="flex gap-3">
+                <div className="flex items-center gap-3">
                     {strategy.map((x, i) => (
                         <div key={i}>
                             {(100 * x).toFixed(1)}
