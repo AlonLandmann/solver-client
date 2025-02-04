@@ -2,7 +2,7 @@ import useWindowWidth from "@/hooks/useWindowWidth";
 import { comboIndices, deckIndices, suits, values } from "@/lib/cards";
 import { outputColor } from "@/lib/colors";
 
-export default function ResultMatrix({ resultNode, hovered }) {
+export default function ResultMatrix({ resultNode, hovered, setDetailedCombo }) {
     const windowWidth = useWindowWidth();
     const headerWidth = 30;
     const cellWidth = Math.max(4, Math.min(10, Math.floor(((windowWidth - 80) - headerWidth - 13) / 52)));
@@ -40,9 +40,27 @@ export default function ResultMatrix({ resultNode, hovered }) {
                 resultNode.actions,
                 resultNode.toCall,
                 resultNode.potBeforeCall,
-                resultNode.strategies[comboIndices[combo]],
+                resultNode.strategies[index],
             ),
         };
+    }
+
+    function handleMouseEnter(v1, v2, s1, s2) {
+        const card1 = v1 + s1;
+        const card2 = v2 + s2;
+
+        if (card1 === card2) {
+            return { backgroundColor: "#181818" };
+        }
+
+        if (resultNode.board.includes(card1) || resultNode.board.includes(card2)) {
+            return { backgroundColor: "#181818" };
+        }
+
+        const isTopRight = deckIndices[card1] < deckIndices[card2];
+        const combo = isTopRight ? card1 + card2 : card2 + card1;
+
+        setDetailedCombo(combo);
     }
 
     return (
@@ -112,6 +130,8 @@ export default function ResultMatrix({ resultNode, hovered }) {
                                             height: cellWidth,
                                             ...cellStyle(v1, v2, s1, s2),
                                         }}
+                                        onMouseEnter={() => handleMouseEnter(v1, v2, s1, s2)}
+                                        onMouseLeave={() => setDetailedCombo(null)}
                                     >
 
                                     </div>

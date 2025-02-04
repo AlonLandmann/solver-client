@@ -3,6 +3,7 @@ import ResultMatrix from "./ResultMatrix";
 import Board from "../table/Board";
 import Categories from "./Categories";
 import Navigator from "./Navigator";
+import ResultDetails from "./ResultDetails";
 
 const positions = [
     "Small Blind",
@@ -16,6 +17,7 @@ const positions = [
 export default function Result({ result }) {
     const [resultNode, setResultNode] = useState(result[":"]);
     const [hovered, setHovered] = useState([]);
+    const [detailedCombo, setDetailedCombo] = useState(null);
 
     return (
         <div>
@@ -41,10 +43,19 @@ export default function Result({ result }) {
                         setResultNode={setResultNode}
                     />
                 </div>
-                <ResultMatrix
-                    resultNode={resultNode}
-                    hovered={hovered}
-                />
+                <div className="flex flex-col items-center gap-4">
+                    <ResultMatrix
+                        resultNode={resultNode}
+                        hovered={hovered}
+                        setDetailedCombo={setDetailedCombo}
+                    />
+                    {detailedCombo &&
+                        <ResultDetails
+                            resultNode={resultNode}
+                            detailedCombo={detailedCombo}
+                        />
+                    }
+                </div>
                 <div className="py-6">
                     <Categories
                         resultNode={resultNode}
